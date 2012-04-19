@@ -1,20 +1,16 @@
-﻿using System.Management;
+﻿using System;
 using System.Collections.Generic;
-
+using System.Management;
 
 namespace LightroomImporter.Core.Device
 {
     public class ConnectedDevicesUtility
     {
-        private const string RemovableDiskQuery = "SELECT Caption, VolumeName, VolumeSerialNumber from Win32_LogicalDisk where DriveType = 2";
+        private const string RemovableDiskQuery = "SELECT Caption, VolumeName, VolumeSerialNumber, FileSystem FROM Win32_LogicalDisk where DriveType = 2";
         private const string CaptionFieldName = "Caption";
         private const string VolumeNameFieldName = "VolumeName";
         private const string VolumeSerialNumberFieldName = "VolumeSerialNumber";
-
-        public ConnectedDevicesUtility()
-        {
-            
-        }
+        private const string FileSystemFieldName = "FileSystem";
 
         /// <summary>
         /// Get the connected devices.
@@ -29,6 +25,8 @@ namespace LightroomImporter.Core.Device
                 ManagementObjectCollection removables = searcher.Get();
                 foreach (var removable in removables)
                 {
+                    if (String.IsNullOrEmpty(removable[FileSystemFieldName] as string)) continue;
+
                     connectedDevices.Add(new DeviceItem()
                     {
                         DriveLetter = removable[CaptionFieldName] as string,
