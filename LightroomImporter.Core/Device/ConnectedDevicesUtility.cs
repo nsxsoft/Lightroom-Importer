@@ -32,7 +32,6 @@ namespace LightroomImporter.Core.Device
                         DriveLetter = removable[CaptionFieldName] as string,
                         Serial = removable[VolumeSerialNumberFieldName] as string,
                         VolumeName = removable[VolumeNameFieldName] as string,
-                        //StopsShutdown = StopList.Contains(removable[VolumeSerialNumberFieldName] as string)
                     });
                 }
             }
