@@ -6,14 +6,8 @@ namespace LightroomImporter.Core.Device
 {
     public class DeviceListManager
     {
-        //private const string RemovableDiskQuery = "SELECT Caption, VolumeName, VolumeSerialNumber from Win32_LogicalDisk where DriveType = 2";
         private const string RemovableDiskRemovedWatcherQuery = "SELECT * FROM __InstanceDeletionEvent WITHIN 10 WHERE TargetInstance ISA \"Win32_LogicalDisk\"";
         private const string RemovableDiskAddedWatcherQuery = "SELECT * FROM __InstanceCreationEvent WITHIN 10 WHERE TargetInstance ISA \"Win32_LogicalDisk\"";
-
-        //private const string CaptionFieldName = "Caption";
-        //private const string VolumeNameFieldName = "VolumeName";
-        //private const string VolumeSerialNumberFieldName = "VolumeSerialNumber";
-
 
         public Dictionary<string, DeviceItem> Devices { get; private set; }
         private Manager ConfigurationManager { get; set; }
@@ -52,10 +46,7 @@ namespace LightroomImporter.Core.Device
 
         public void UpdateConnectedDevice(DeviceItem device)
         {
-            DeviceItem existingDevice = Devices[device.Serial];
-            existingDevice.DriveLetter = device.DriveLetter;
-            existingDevice.VolumeName = device.VolumeName;
-            existingDevice.SetToConnected();
+            Devices[device.Serial].Update(device);
 
             // Run picture import of devices.
         }

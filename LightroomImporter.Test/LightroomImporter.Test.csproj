@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectedDevicesUtilityTest.cs" />
+    <Compile Include="DeviceItemTest.cs" />
     <Compile Include="PictureCopierTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

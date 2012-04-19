@@ -17,5 +17,12 @@
         {
             IsConnected = false;
         }
+
+        public void Update(DeviceItem item)
+        {
+            DriveLetter = item.DriveLetter;
+            VolumeName = item.VolumeName;
+            SetToConnected();
+        }
     }
 }
