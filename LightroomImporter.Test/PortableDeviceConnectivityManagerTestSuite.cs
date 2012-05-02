@@ -24,6 +24,7 @@ namespace LightroomImporter.Test
             var portableDeviceConnectivityManager = CreatePortableDeviceConnectivityManager();
             MessageBox.Show("Please ensure that at least one windows portable device is connected for this manual test.");
             var connectedDeviceList = portableDeviceConnectivityManager.GetConnectedDevices();
+
             Assert.That(connectedDeviceList.Count, Is.GreaterThan(0));
         }
 
