@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Management;
+using LightroomImporter.Core.Device.Item;
 
-namespace LightroomImporter.Core.Device
+namespace LightroomImporter.Core.Device.ConnectivityManager
 {
-    public class ConnectedDevicesUtility
+    public class RemovableDiskConnectivityManager : IConnectivityManager
     {
-        private const string RemovableDiskQuery = "SELECT Caption, VolumeName, VolumeSerialNumber, FileSystem FROM Win32_LogicalDisk where DriveType = 2";
+        private const string RemovableDiskQuery = "SELECT Caption, VolumeName, VolumeSerialNumber, FileSystem FROM Win32_LogicalDisk WHERE DriveType = 2 OR DriveType = 3";
         private const string CaptionFieldName = "Caption";
         private const string VolumeNameFieldName = "VolumeName";
         private const string VolumeSerialNumberFieldName = "VolumeSerialNumber";
         private const string FileSystemFieldName = "FileSystem";
 
-        /// <summary>
-        /// Get the connected devices.
-        /// </summary>
-        public List<DeviceItem> Get()
+        public List<IDevice> GetConnectedDevices()
         {
-            List<DeviceItem> connectedDevices = new List<DeviceItem>();
+            List<IDevice> connectedDevices = new List<IDevice>();
             ObjectQuery query = new ObjectQuery(RemovableDiskQuery);
 
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
@@ -26,8 +24,11 @@ namespace LightroomImporter.Core.Device
                 foreach (var removable in removables)
                 {
                     if (String.IsNullOrEmpty(removable[FileSystemFieldName] as string)) continue;
+                    if (removable[CaptionFieldName].ToString().ToUpper() == "C:") continue;
+                    if (String.IsNullOrEmpty(removable[FileSystemFieldName] as string)) continue;
+                    if (String.IsNullOrEmpty(removable[VolumeSerialNumberFieldName] as string)) continue;
 
-                    connectedDevices.Add(new DeviceItem()
+                    connectedDevices.Add(new RemovableDiskDeviceItem()
                     {
                         DriveLetter = removable[CaptionFieldName] as string,
                         Serial = removable[VolumeSerialNumberFieldName] as string,

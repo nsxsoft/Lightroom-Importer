@@ -21,6 +21,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,13 +41,19 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsPortableDeviceNet">
+      <HintPath>..\ThirdPartyLibrary\WindowsPortableDeviceNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\Manager.cs" />
-    <Compile Include="Device\ConnectedDevicesUtility.cs" />
-    <Compile Include="Device\DeviceItem.cs" />
+    <Compile Include="Device\ConnectivityManager\IConnectivityManager.cs" />
+    <Compile Include="Device\ConnectivityManager\PortableDeviceConnectivityManager.cs" />
+    <Compile Include="Device\ConnectivityManager\RemovableDiskConnectivityManager.cs" />
+    <Compile Include="Device\Item\RemovableDiskDeviceItem.cs" />
     <Compile Include="Device\DeviceListManager.cs" />
-    <Compile Include="PictureCopier.cs" />
+    <Compile Include="Device\Item\IDevice.cs" />
+    <Compile Include="Device\Item\PortableDeviceItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
