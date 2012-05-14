@@ -6,9 +6,9 @@ namespace LightroomImporter.Core.Device.ConnectivityManager
 {
     public class PortableDeviceConnectivityManager : IConnectivityManager
     {
-        public List<IDevice> GetConnectedDevices()
+        public List<BaseDevice> GetConnectedDevices()
         {
-            List<IDevice> connectedDevices = new List<IDevice>();
+            List<BaseDevice> connectedDevices = new List<BaseDevice>();
             Utility utility = new Utility();
             foreach (WindowsPortableDeviceNet.Model.Device device in utility.Get())
             {

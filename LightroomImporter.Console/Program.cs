@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using LightroomImporter.Core;
+﻿using LightroomImporter.Core.Configuration;
+using LightroomImporter.Core.Device;
 
 namespace LightroomImporter.Console
 {
     class Program
     {
-        //static DeviceListManager Detector = new DeviceListManager();
         static void Main(string[] args)
         {
-            //AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
-            //Detector.TrackDevices();
+            // Check what is connected and copy it to the folder.
 
-            //while (true)
-            //{
-            //};
+            RegisteredDeviceManager registeredDeviceManager = new RegisteredDeviceManager();
+            ConfigurationManager configurationManager = new ConfigurationManager(registeredDeviceManager);
+            DeviceListManager deviceListManager = new DeviceListManager(configurationManager);
+
+            deviceListManager.GetConnectedDevices();
+            deviceListManager.CopyFiles();
         }
-
-        static void CurrentDomain_ProcessExit(object sender, EventArgs e)
-        {
-            //Detector.Stop();
-        }
-
     }
 }

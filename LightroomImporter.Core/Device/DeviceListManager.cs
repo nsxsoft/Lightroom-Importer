@@ -10,63 +10,49 @@ namespace LightroomImporter.Core.Device
         private const string RemovableDiskRemovedWatcherQuery = "SELECT * FROM __InstanceDeletionEvent WITHIN 10 WHERE TargetInstance ISA \"Win32_LogicalDisk\"";
         private const string RemovableDiskAddedWatcherQuery = "SELECT * FROM __InstanceCreationEvent WITHIN 10 WHERE TargetInstance ISA \"Win32_LogicalDisk\"";
 
-        public Dictionary<string, IDevice> Devices { get; private set; }
-        private Manager ConfigurationManager { get; set; }
+        public Dictionary<string, BaseDevice> Devices { get; private set; }
+        private ConfigurationManager ConfigurationManager { get; set; }
         private RemovableDiskConnectivityManager RemovableDiskConnectivityManager { get; set; }
+        private PortableDeviceConnectivityManager PortableDeviceConnectivityManager { get; set; }
 
-        public DeviceListManager(Manager configurationManager)
+        public DeviceListManager(ConfigurationManager configurationManager)
         {
-            Devices = new Dictionary<string, IDevice>();
+            Devices = new Dictionary<string, BaseDevice>();
             ConfigurationManager = configurationManager;
 
             RemovableDiskConnectivityManager = new RemovableDiskConnectivityManager();
-            
-
-            //GetRegisteredDevices();
-            //GetConnectedDevices();
+            PortableDeviceConnectivityManager = new PortableDeviceConnectivityManager();
         }
-
-        //private void GetRegisteredDevices()
-        //{
-        //    // TODO:
-        //    // Gets list of registered devices from the configuration manager.
-        //}
 
         public void GetConnectedDevices()
         {
-            // Get connected removable storage devices.
-
-            foreach (IDevice connectedDevice in RemovableDiskConnectivityManager.GetConnectedDevices())
+            foreach (PortableDeviceItem connectedDevice in PortableDeviceConnectivityManager.GetConnectedDevices())
             {
-                AddConnectedDevices(connectedDevice as RemovableDiskDeviceItem);
+                AddConnectedDevices(connectedDevice);
             }
-
-            // Get connected windows portable devices
-
         }
 
-        //public void AddConnectedDevices(WindowsPortableDeviceNet.Model.Device device)
-        //{
-        //    if (Devices.ContainsKey(device.DeviceId))
-        //    {
-        //    }
-        //}
+        public void AddConnectedDevices(PortableDeviceItem device)
+        {
+            Devices.Add(device.Id, device);
+        }
 
         public void AddConnectedDevices(RemovableDiskDeviceItem device)
         {
-            //if (Devices.ContainsKey(device.Serial))
-            //{
-            //    UpdateConnectedDevice(device);
-            //}
-
             Devices.Add(device.Serial, device);
         }
 
-        //public void UpdateConnectedDevice(RemovableDiskDeviceItem device)
-        //{
-        //    //Devices[device.Serial].Update(device);
+        public void CopyFiles()
+        {
+            foreach (var item in Devices)
+            {
+                BaseDevice device = item.Value;
+                if (!device.IsConnected) continue;
 
-        //    // Run picture import of devices.
-        //}
+                device.TransferData(
+                    ConfigurationManager.ImageDestinationPath, 
+                    ConfigurationManager.IsKeepFolderStructure);
+            }
+        }
     }
 }

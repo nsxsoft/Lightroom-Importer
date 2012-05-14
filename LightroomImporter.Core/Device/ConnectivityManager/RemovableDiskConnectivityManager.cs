@@ -13,9 +13,9 @@ namespace LightroomImporter.Core.Device.ConnectivityManager
         private const string VolumeSerialNumberFieldName = "VolumeSerialNumber";
         private const string FileSystemFieldName = "FileSystem";
 
-        public List<IDevice> GetConnectedDevices()
+        public List<BaseDevice> GetConnectedDevices()
         {
-            List<IDevice> connectedDevices = new List<IDevice>();
+            List<BaseDevice> connectedDevices = new List<BaseDevice>();
             ObjectQuery query = new ObjectQuery(RemovableDiskQuery);
 
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
@@ -25,8 +25,8 @@ namespace LightroomImporter.Core.Device.ConnectivityManager
                 {
                     if (String.IsNullOrEmpty(removable[FileSystemFieldName] as string)) continue;
                     if (removable[CaptionFieldName].ToString().ToUpper() == "C:") continue;
-                    if (String.IsNullOrEmpty(removable[FileSystemFieldName] as string)) continue;
-                    if (String.IsNullOrEmpty(removable[VolumeSerialNumberFieldName] as string)) continue;
+                    if (String.IsNullOrEmpty(removable[VolumeNameFieldName] as string)) continue;
+                    //if (String.IsNullOrEmpty(removable[VolumeSerialNumberFieldName] as string)) continue;
 
                     connectedDevices.Add(new RemovableDiskDeviceItem()
                     {

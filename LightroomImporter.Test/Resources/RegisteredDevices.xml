@@ -1,0 +1,32 @@
+﻿<ArrayOfBaseDevice xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <BaseDevice xsi:type="RemovableDiskDeviceItem">
+    <Name>device 1</Name>
+    <Id>id1</Id>
+    <Type>RemovableDisk</Type>
+  </BaseDevice>
+  <BaseDevice xsi:type="RemovableDiskDeviceItem">
+    <Name>device 2</Name>
+    <Id>id2</Id>
+    <Type>RemovableDisk</Type>
+  </BaseDevice>
+  <BaseDevice xsi:type="RemovableDiskDeviceItem">
+    <Name>device 3</Name>
+    <Id>id3</Id>
+    <Type>RemovableDisk</Type>
+  </BaseDevice>
+  <BaseDevice xsi:type="PortableDeviceItem">
+    <Name>device 4</Name>
+    <Id>id4</Id>
+    <Type>WindowsPortableDevice</Type>
+  </BaseDevice>
+  <BaseDevice xsi:type="PortableDeviceItem">
+    <Name>device 5</Name>
+    <Id>id5</Id>
+    <Type>WindowsPortableDevice</Type>
+  </BaseDevice>
+  <BaseDevice xsi:type="RemovableDiskDeviceItem">
+    <Name>device 6</Name>
+    <Id>id6</Id>
+    <Type>RemovableDisk</Type>
+  </BaseDevice>
+</ArrayOfBaseDevice>

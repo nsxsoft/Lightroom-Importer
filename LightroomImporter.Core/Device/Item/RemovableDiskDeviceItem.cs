@@ -1,16 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace LightroomImporter.Core.Device.Item
 {
-    public class RemovableDiskDeviceItem : IDevice
+    public class RemovableDiskDeviceItem : BaseDevice
     {
         public string DriveLetter { get; set; }
-        public string Id { get; set; }
-        public bool IsConnected { get; set; }
-        public bool IsRegistered { get; set; }
-        public string Name { get; set; }
         public string Serial { get; set; }
-        public DeviceType Type { get; set; }
         public string VolumeName { get; set; }
 
         public RemovableDiskDeviceItem()
@@ -18,19 +14,18 @@ namespace LightroomImporter.Core.Device.Item
             Type = DeviceType.RemovableDisk;
         }
 
-        public void TransferData(string destinationPath, bool isKeepFolderStructure)
+        public override void TransferData(string destinationPath, bool isKeepFolderStructure)
         {
+            if (!File.Exists(destinationPath)) throw new InvalidOperationException("");
             DirectoryInfo directory = new DirectoryInfo(DriveLetter);
             CopyDirectory(directory, destinationPath, isKeepFolderStructure);
         }
 
-        public void Update(IDevice item)
+        public override void Update(BaseDevice item)
         {
-            if (item is RemovableDiskDeviceItem)
-            {
-                RemovableDiskDeviceItem updatedItem = (RemovableDiskDeviceItem) item;
-                Update(updatedItem);
-            }
+            if (!(item is RemovableDiskDeviceItem)) return;
+            RemovableDiskDeviceItem updatedItem = (RemovableDiskDeviceItem) item;
+            Update(updatedItem);
         }
 
         private void CopyDirectory(

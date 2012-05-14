@@ -1,7 +1,7 @@
 ﻿using LightroomImporter.Core.Device.Item;
 using NUnit.Framework;
 
-namespace LightroomImporter.Test
+namespace LightroomImporter.Test.Device
 {
     [TestFixture]
     public class DeviceItemTestSuite

@@ -5,6 +5,6 @@ namespace LightroomImporter.Core.Device.ConnectivityManager
 {
     public interface IConnectivityManager
     {
-        List<IDevice> GetConnectedDevices();
+        List<BaseDevice> GetConnectedDevices();
     }
 }

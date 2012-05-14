@@ -33,7 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonMonkeys">
+      <HintPath>..\ThirdPartyLibrary\CommonMonkeys.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
     <Reference Include="System.Xml.Linq" />
@@ -46,16 +50,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\Manager.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
     <Compile Include="Device\ConnectivityManager\IConnectivityManager.cs" />
     <Compile Include="Device\ConnectivityManager\PortableDeviceConnectivityManager.cs" />
     <Compile Include="Device\ConnectivityManager\RemovableDiskConnectivityManager.cs" />
+    <Compile Include="Device\Item\BaseDevice.cs" />
     <Compile Include="Device\Item\RemovableDiskDeviceItem.cs" />
     <Compile Include="Device\DeviceListManager.cs" />
-    <Compile Include="Device\Item\IDevice.cs" />
     <Compile Include="Device\Item\PortableDeviceItem.cs" />
+    <Compile Include="Device\RegisteredDeviceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

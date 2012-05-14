@@ -1,14 +1,15 @@
 ﻿
 namespace LightroomImporter.Core.Device.Item
 {
-    public class PortableDeviceItem : IDevice
+    public class PortableDeviceItem : BaseDevice
     {
         private WindowsPortableDeviceNet.Model.Device Device { get; set; }
-        public string Name { get; set; }
-        public string Id { get; set; }
-        public DeviceType Type { get; set; }
-        public bool IsRegistered { get; set; }
-        public bool IsConnected { get; set; }
+
+        public PortableDeviceItem()
+        {
+            Device = null;
+            Type = DeviceType.Unknown;
+        }
 
         public PortableDeviceItem(WindowsPortableDeviceNet.Model.Device device)
         {
@@ -18,18 +19,16 @@ namespace LightroomImporter.Core.Device.Item
             Type = DeviceType.WindowsPortableDevice;
         }
 
-        public void TransferData(string destinationPath, bool isKeepFolderStructure)
+        public override void TransferData(string destinationPath, bool isKeepFolderStructure)
         {
-            // TODO: Testing is still to be done.
-
-            //Device.TransferData(destinationPath, isKeepFolderStructure);
+            Device.TransferData(destinationPath, isKeepFolderStructure);
         }
 
-        public void Update(IDevice item)
+        public override void Update(BaseDevice item)
         {
             // TODO: Testing is still to be done.
 
-            //if ((!(item is PortableDeviceItem)) || (Id != item.Id) || (Name != item.Name)) return;
+            //if ((!(item is PortableBaseDeviceItem)) || (Id != item.Id) || (Name != item.Name)) return;
             //Device.Refresh(item.Id);
         }
     }
