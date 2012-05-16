@@ -9,8 +9,7 @@ namespace LightroomImporter.Console
         {
             // Check what is connected and copy it to the folder.
 
-            RegisteredDeviceManager registeredDeviceManager = new RegisteredDeviceManager();
-            ConfigurationManager configurationManager = new ConfigurationManager(registeredDeviceManager);
+            ConfigurationManager configurationManager = new ConfigurationManager();
             DeviceListManager deviceListManager = new DeviceListManager(configurationManager);
 
             deviceListManager.GetConnectedDevices();

@@ -48,7 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
-    <Compile Include="Configuration\ConfigurationManagerTestSuite.cs" />
     <Compile Include="Device\DeviceItemTestSuite.cs" />
     <Compile Include="Device\DeviceListManagerTestSuite.cs" />
     <Compile Include="Device\PortableDeviceConnectivityManagerTestSuite.cs" />

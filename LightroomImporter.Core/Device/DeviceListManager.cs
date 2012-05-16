@@ -7,20 +7,15 @@ namespace LightroomImporter.Core.Device
 {
     public class DeviceListManager
     {
-        private const string RemovableDiskRemovedWatcherQuery = "SELECT * FROM __InstanceDeletionEvent WITHIN 10 WHERE TargetInstance ISA \"Win32_LogicalDisk\"";
-        private const string RemovableDiskAddedWatcherQuery = "SELECT * FROM __InstanceCreationEvent WITHIN 10 WHERE TargetInstance ISA \"Win32_LogicalDisk\"";
-
-        public Dictionary<string, BaseDevice> Devices { get; private set; }
+        public List<PortableDeviceItem> Devices { get; private set; }
         private ConfigurationManager ConfigurationManager { get; set; }
-        private RemovableDiskConnectivityManager RemovableDiskConnectivityManager { get; set; }
         private PortableDeviceConnectivityManager PortableDeviceConnectivityManager { get; set; }
 
         public DeviceListManager(ConfigurationManager configurationManager)
         {
-            Devices = new Dictionary<string, BaseDevice>();
+            Devices = new List<PortableDeviceItem>();
             ConfigurationManager = configurationManager;
 
-            RemovableDiskConnectivityManager = new RemovableDiskConnectivityManager();
             PortableDeviceConnectivityManager = new PortableDeviceConnectivityManager();
         }
 
@@ -34,20 +29,14 @@ namespace LightroomImporter.Core.Device
 
         public void AddConnectedDevices(PortableDeviceItem device)
         {
-            Devices.Add(device.Id, device);
-        }
-
-        public void AddConnectedDevices(RemovableDiskDeviceItem device)
-        {
-            Devices.Add(device.Serial, device);
+            Devices.Add(device);
         }
 
         public void CopyFiles()
         {
             foreach (var item in Devices)
             {
-                BaseDevice device = item.Value;
-                if (!device.IsConnected) continue;
+                PortableDeviceItem device = item;
 
                 device.TransferData(
                     ConfigurationManager.ImageDestinationPath, 
