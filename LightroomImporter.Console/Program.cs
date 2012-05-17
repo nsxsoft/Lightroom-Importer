@@ -14,6 +14,7 @@ namespace LightroomImporter.Console
 
             deviceListManager.GetConnectedDevices();
             deviceListManager.CopyFiles();
+            System.Diagnostics.Process.Start(configurationManager.LightroomProgramLocation);
         }
     }
 }
