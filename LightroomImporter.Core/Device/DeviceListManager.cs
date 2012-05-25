@@ -47,6 +47,8 @@ namespace LightroomImporter.Core.Device
         {
             try
             {
+                int devicesTransferred = 0;
+
                 PortableDeviceConnectivityManager.Instance().GetConnectedDevices();
 
                 Console.WriteLine(
@@ -63,7 +65,13 @@ namespace LightroomImporter.Core.Device
                     item.TransferData(
                         ConfigurationManager.ImageDestinationPath,
                         ConfigurationManager.IsKeepFolderStructure);
+                    devicesTransferred++;
                     Console.WriteLine("{0}: Data from {1} TRANSFERRED.", DateTime.Now.ToString("d MMM yyyy HH:mm:ss"), item.Name);
+                }
+
+                if (devicesTransferred > 0)
+                {
+                    System.Diagnostics.Process.Start(ConfigurationManager.LightroomProgramLocation);
                 }
             }
             catch (Exception ex)
