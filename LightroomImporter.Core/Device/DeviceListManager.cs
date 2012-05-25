@@ -1,46 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
+using System.Management;
 using LightroomImporter.Core.Configuration;
 using LightroomImporter.Core.Device.ConnectivityManager;
-using LightroomImporter.Core.Device.Item;
 
 namespace LightroomImporter.Core.Device
 {
     public class DeviceListManager
     {
-        public List<PortableDeviceItem> Devices { get; private set; }
         private ConfigurationManager ConfigurationManager { get; set; }
-        private PortableDeviceConnectivityManager PortableDeviceConnectivityManager { get; set; }
+        private const string DeviceChangeEventQuery = "SELECT * FROM Win32_DeviceChangeEvent";
+        private ManagementEventWatcher ManagementEventWatcher { get; set; }
+        private bool IsKeepRunning { get; set; }
 
         public DeviceListManager(ConfigurationManager configurationManager)
         {
-            Devices = new List<PortableDeviceItem>();
             ConfigurationManager = configurationManager;
 
-            PortableDeviceConnectivityManager = new PortableDeviceConnectivityManager();
+            ManagementEventWatcher = new ManagementEventWatcher();
+            WqlEventQuery query = new WqlEventQuery(DeviceChangeEventQuery);
+            ManagementEventWatcher.EventArrived += Watcher_EventArrived;
+            ManagementEventWatcher.Query = query;
+            IsKeepRunning = false;
         }
 
-        public void GetConnectedDevices()
+        /// <summary>
+        /// This method sets the management event watch to continually wait for the next event.
+        /// </summary>
+        public void Start()
         {
-            foreach (PortableDeviceItem connectedDevice in PortableDeviceConnectivityManager.GetConnectedDevices())
+            IsKeepRunning = true;
+            ManagementEventWatcher.Start();
+            while (IsKeepRunning)
             {
-                AddConnectedDevices(connectedDevice);
+                ManagementEventWatcher.WaitForNextEvent();
             }
         }
 
-        public void AddConnectedDevices(PortableDeviceItem device)
+        public void Stop()
         {
-            Devices.Add(device);
+            IsKeepRunning = false;
+            ManagementEventWatcher.Stop();
         }
 
-        public void CopyFiles()
+        private void Watcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
-            foreach (var item in Devices)
+            PortableDeviceConnectivityManager.Instance().GetConnectedDevices();
+            foreach (var item in PortableDeviceConnectivityManager.Instance().CurrentConnectedDevices.Where(x => !x.IsTransferedData))
             {
-                PortableDeviceItem device = item;
-
-                device.TransferData(
-                    ConfigurationManager.ImageDestinationPath, 
+                item.TransferData(
+                    ConfigurationManager.ImageDestinationPath,
                     ConfigurationManager.IsKeepFolderStructure);
+                Console.WriteLine("Debug: {0}", item);
             }
         }
     }

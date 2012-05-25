@@ -48,12 +48,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseTest.cs" />
-    <Compile Include="Device\DeviceItemTestSuite.cs" />
     <Compile Include="Device\DeviceListManagerTestSuite.cs" />
     <Compile Include="Device\PortableDeviceConnectivityManagerTestSuite.cs" />
-    <Compile Include="Device\RegisteredDeviceManagerTestSuite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Device\RemovableDiskConnectivityManagerTestSuite.cs" />
     <Compile Include="Resources\TestFiles.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

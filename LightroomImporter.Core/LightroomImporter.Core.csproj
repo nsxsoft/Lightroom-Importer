@@ -40,6 +40,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,14 +52,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationManager.cs" />
-    <Compile Include="Device\ConnectivityManager\IConnectivityManager.cs" />
     <Compile Include="Device\ConnectivityManager\PortableDeviceConnectivityManager.cs" />
-    <Compile Include="Device\ConnectivityManager\RemovableDiskConnectivityManager.cs" />
-    <Compile Include="Device\Item\BaseDevice.cs" />
-    <Compile Include="Device\Item\RemovableDiskDeviceItem.cs" />
+    <Compile Include="Device\Enumerators\DeviceTypeEnum.cs" />
     <Compile Include="Device\DeviceListManager.cs" />
+    <Compile Include="Device\Item\IDevice.cs" />
     <Compile Include="Device\Item\PortableDeviceItem.cs" />
-    <Compile Include="Device\RegisteredDeviceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

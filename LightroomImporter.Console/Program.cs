@@ -1,5 +1,6 @@
 ﻿using LightroomImporter.Core.Configuration;
 using LightroomImporter.Core.Device;
+using LightroomImporter.Core.Device.ConnectivityManager;
 
 namespace LightroomImporter.Console
 {
@@ -7,14 +8,10 @@ namespace LightroomImporter.Console
     {
         static void Main(string[] args)
         {
-            // Check what is connected and copy it to the folder.
-
             ConfigurationManager configurationManager = new ConfigurationManager();
+            PortableDeviceConnectivityManager.Instance();
             DeviceListManager deviceListManager = new DeviceListManager(configurationManager);
-
-            deviceListManager.GetConnectedDevices();
-            deviceListManager.CopyFiles();
-            System.Diagnostics.Process.Start(configurationManager.LightroomProgramLocation);
+            deviceListManager.Start();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace LightroomImporter.Test
     {
         public void AskManualTestToBeRunQuestion(string message)
         {
-            if (MessageBox.Show(message, "Run Test?", MessageBoxButtons.YesNo) == DialogResult.Yes) return;
+            if (MessageBox.Show(message, "Start Test?", MessageBoxButtons.YesNo) == DialogResult.Yes) return;
             Assert.Fail("Test Declined.");
         }
     }
