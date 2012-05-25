@@ -45,23 +45,32 @@ namespace LightroomImporter.Core.Device
 
         private void Watcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
-            PortableDeviceConnectivityManager.Instance().GetConnectedDevices();
-
-            Console.WriteLine(
-                "{0}: {1} devices detected.",
-                DateTime.Now.ToString("d MMM yyyy HH:mm:ss"),
-                PortableDeviceConnectivityManager.Instance().CurrentConnectedDevices.Count);
-
-            foreach (var item in PortableDeviceConnectivityManager.Instance().CurrentConnectedDevices.Where(x => !x.IsTransferedData))
+            try
             {
+                PortableDeviceConnectivityManager.Instance().GetConnectedDevices();
+
                 Console.WriteLine(
-                    "{0}: Data is being transferred from {1}. Please wait for this to complete.",
+                    "{0}: {1} devices detected.",
                     DateTime.Now.ToString("d MMM yyyy HH:mm:ss"),
-                    item.Name);
-                item.TransferData(
-                    ConfigurationManager.ImageDestinationPath,
-                    ConfigurationManager.IsKeepFolderStructure);
-                Console.WriteLine("{0}: Data from {1} TRANSFERRED.", DateTime.Now.ToString("d MMM yyyy HH:mm:ss"), item.Name);
+                    PortableDeviceConnectivityManager.Instance().CurrentConnectedDevices.Count);
+
+                foreach (var item in PortableDeviceConnectivityManager.Instance().CurrentConnectedDevices.Where(x => !x.IsTransferedData))
+                {
+                    Console.WriteLine(
+                        "{0}: Data is being transferred from {1}. Please wait for this to complete.",
+                        DateTime.Now.ToString("d MMM yyyy HH:mm:ss"),
+                        item.Name);
+                    item.TransferData(
+                        ConfigurationManager.ImageDestinationPath,
+                        ConfigurationManager.IsKeepFolderStructure);
+                    Console.WriteLine("{0}: Data from {1} TRANSFERRED.", DateTime.Now.ToString("d MMM yyyy HH:mm:ss"), item.Name);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("{0}: Error with data transfer. Details: {1}", 
+                    DateTime.Now.ToString("d MMM yyyy HH:mm:ss"), 
+                    ex.Message);
             }
         }
     }
